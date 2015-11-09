@@ -1,0 +1,56 @@
+module control_movimiento (s, clk , init , A , B , C , D , teta_d , teta , fi_d , fi , done);
+  
+  
+  input s;
+  input clk;
+  input init1;
+  input init2;
+  input [15:0]A;
+  input [15:0]B;
+  input [15:0]C;
+  input [15:0]D;
+  input [15:0]teta_d;
+  input [15:0]teta_actual;
+  input [15:0]fi_d;
+  input [15:0]fi_actual;
+
+  input [15:0]d_in; 
+  input [15:0]d_out;
+
+  input [3:0]addr; // 4 LSB from j1_io_addr
+ 
+
+  output [1:0]S_out_teta;
+  output [1:0]S_out_fi;
+  output done;
+
+//inicialización 
+
+   wire init1=0;
+   wire init2=0;
+   wire S=0;
+   wire t=0;
+  always @(posedge clk)  //selector entre manual y automatico
+    if (s)
+	 begin init_1=1;end   //AUTOMATICO	 
+	   
+    else 
+	 begin init2=1; end   //MANUAL
+          
+           
+
+
+//MODO AUTOMATICO
+always @(posedge clk)   //comparador variables horizontales AUTOMÁTICO
+  begin
+	if(init_1)begin
+	    if (A==B && C==D ) 
+		begin   S_out_fi=0;end
+	    
+	    else if(A<B && C<D )
+		begin    S_out_fi=2'b01;end   //movimiesto motor hacia a izquierda
+
+	    else if(A>B && C>D )
+		begin    S_out_fi=2'b10;end   //movimiesto motor hacia a derecha
+       end
+  end
