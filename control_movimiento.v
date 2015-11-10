@@ -1,4 +1,19 @@
-input [15:0]fi_d;
+  
+  
+  module control_movimiento (s,clk,init1,init2,A,B,C,D , teta_d , teta_actual , fi_d , fi_actual , d1, d_1,d2,d_2,done,S_out_teta,S_out_fi);
+  
+  
+  input s;
+  input clk;
+  input init1;
+  input init2;
+  input [15:0]A;
+  input [15:0]B;
+  input [15:0]C;
+  input [15:0]D;
+  input [15:0]teta_d;
+  input [15:0]teta_actual;
+  input [15:0]fi_d;
   input [15:0]fi_actual;
 
 
