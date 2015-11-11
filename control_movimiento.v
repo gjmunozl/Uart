@@ -1,6 +1,6 @@
   
   
-  module control_movimiento (s,clk,init1,init2,A,B,C,D , teta_d , teta_actual , fi_d , fi_actual , d1, d_1,d2,d_2,done,S_out_teta,S_out_fi);
+  module control_movimiento (s,clk,init,A,B,C,D , teta_d , teta_actual , fi_d , fi_actual , d1, d_1,d2,d_2,done,S_out_teta,S_out_fi);
   
   
   input s;
@@ -23,21 +23,18 @@
 
 //inicialización 
 
-   wire init1=0;
-   wire init2=0;
+   wire init=0;
+
    reg s=0;
    reg t=0;
    reg t1=0;
 
-
-  always @(posedge clk)  //selector entre manual y automatico
-    if (s)
-	 begin init1=1;end   //AUTOMATICO	 
-	   
-    else 
-	 begin init2=1; end   //MANUAL
           
-           
+always @(posedge clk)  //selector entre manual y automatico
+case(init) 
+
+
+1'b0:begin  // Primer caso init entra a automatico
 
 
 //MODO AUTOMATICO
@@ -64,9 +61,14 @@ always @(posedge clk) //comparación variables verticales AUTOMÁTICO
 		begin    S_out_teta=2'b10;end   //movimiesto motor hacia a derecha
 	end
   end
+end
 
+
+
+2'b01:begin //entra a segundo caso init manual
 
 //MODOD MANUAL
+
 
 always @(posedge clk)  //movimento en el eje teta o vertical
   begin
@@ -115,7 +117,7 @@ always @(posedge clk)  //movimento en el eje fi o horizontal
 	end
 
   end
-
+end
 
 
 
