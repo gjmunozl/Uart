@@ -46,11 +46,10 @@ always @(posedge clk)   //comparador variables horizontales AUTOMÁTICO
 	    else if(A>B)
 		begin    S_out_fi=2'b10;end   //movimiesto motor hacia a derecha
        end
-  end
+  
 
-always @(posedge clk) //comparación variables verticales AUTOMÁTICO
-  begin
-	if(init1)begin
+ //comparación variables verticales AUTOMÁTICO
+	if(A>=(B+error)||A<=(B-error))
 	    if (C>=(D+error)||C<=(D-error) 
 		begin    S_out_fi=0;end
 	    else if(C<D)
@@ -70,7 +69,7 @@ end
 
 always @(posedge clk)  //movimento en el eje teta o vertical
   begin
-	if(init2)begin
+
 		if(teta_actual>=(teta_d+error)||teta_actual<=(teta_d-error)
 			begin s_out_teta=0;end
 		else 
@@ -88,7 +87,7 @@ always @(posedge clk)  //movimento en el eje teta o vertical
 
 	
 	
-	end
+
 
   end
 
