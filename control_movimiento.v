@@ -1,6 +1,6 @@
   
   
-  module control_movimiento (s,clk,A,B,C,D , teta_d , teta_actual , fi_d , fi_actual , d1, d_1,d2,d_2,done,S_out_teta,S_out_fi);
+  module control_movimiento (s,clk,A,B,C,D , teta_d , teta_actual , fi_d , fi_actual ,done,S_out_teta,S_out_fi);
   
   
   input s;
