@@ -1,12 +1,10 @@
   
   
-  module control_movimiento (s,clk,init,A,B,C,D , teta_d , teta_actual , fi_d , fi_actual , d1, d_1,d2,d_2,done,S_out_teta,S_out_fi);
+  module control_movimiento (s,clk,A,B,C,D , teta_d , teta_actual , fi_d , fi_actual , d1, d_1,d2,d_2,done,S_out_teta,S_out_fi);
   
   
   input s;
   input clk;
-  input init1;
-  input init2;
   input [15:0]A;
   input [15:0]B;
   input [15:0]C;
@@ -31,7 +29,7 @@
 
           
 always @(posedge clk)  //selector entre manual y automatico
-case(init) 
+case(s) 
 
 
 1'b0:begin  // Primer caso init entra a automatico
