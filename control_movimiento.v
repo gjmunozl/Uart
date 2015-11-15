@@ -45,8 +45,20 @@ module control_movimiento (s,clk, R_vertical_1, R_vertical_2, R_horizontal_1, R_
 				mover=2'b11;   // movimiento anti-horario  vertical
 			end
 		end
+		
 		////////////////////comparador resistencias vertical
 		
+		
+		if (R_horizontal_1>=(R_horizontal_2-error) && R_horizontal_1<=(R_horizontal_1+error))begin
+			mover=2'b00; ////El valor de las fotoresis. estan equilibradas, el movimiento es cero.
+		end else begin 
+			if(R_horizontal_1>R_horizontal_2)begin
+				mover=2'b01;  // movimiento horario  horizontal
+			end
+			if(R_horizontal_1<R_horizontal_2)begin
+				mover=2'b11;   // movimiento anti-horario  horizontal
+			end
+		end		
 		
 		
 		
