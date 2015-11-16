@@ -23,57 +23,53 @@ module control_movimiento (s,clk, R_vertical_1 , R_vertical_2 , R_horizontal_1 ,
 	//inicialización 
 	reg[1:0] shift_motor=2'b00;
 	reg[1:0] shift_R=2'b00;
-	reg [1:0] mover=2'b00;
-	reg [15:0]error=0000000000000101;
+	reg [1:0] mover_teta;
+	reg [1:0] mover_fi;
+	reg [15:0]error=3'b101;
 	
 	
 	
 	always @(posedge clk)begin
 
 		////////////////MODO AUTOMATICO///////////////////////
-		if(shift_R==2'b00)begin
+		if(shift_motor==2'b00)begin
 
 		////////////////comparador vertical
 			if ((R_vertical_1>=(R_vertical_2-error) )&& (R_vertical_1<=(R_vertical_2+error)))begin
-				mover=2'b00; ////El valor de las fotoresis. estan equilibradas
-				shift_R=2'b10;
+				mover_teta=2'b00; ////El valor de las fotoresis. estan equilibradas
 				shift_motor=2'b10;
+				
 			end else begin 
 				if(R_vertical_1>R_vertical_2)begin
-					mover=2'b10;  // movimiento horario  vertical				
+					mover_teta=2'b01;  // movimiento horario  vertical				
 				end
 				if(R_vertical_1<R_vertical_2)begin
-					mover=2'b11;   // movimiento anti-horario  vertical
+					mover_teta=2'b11;   // movimiento anti-horario  vertical
 				end
-			end		
-
+			end 
+			s_out_teta=mover_teta;
 		///////////////////////////////////////
 
 		end else begin
 			///////////////comparador horizontal
-			if (R_horizontal_1>=(R_horizontal_2-error) && R_horizontal_1<=(R_horizontal_1+error))begin
-					mover=2'b00; ////El valor de las fotoresis. estan equilibradas, el movimiento es cero.
-					shift_R=2'b00;
+			if (R_horizontal_1>=(R_horizontal_2-error) && R_horizontal_1<=(R_horizontal_2+error))begin
+					mover_fi=2'b00; ////El valor de las fotoresis. estan equilibradas, el movimiento es cero.
 					shift_motor=2'b00;
 			end else begin 
 				if(R_horizontal_1>R_horizontal_2)begin
-					mover=2'b01;  // movimiento horario  horizontal
+					mover_fi=2'b01;  // movimiento horario  horizontal
 				end
 				if(R_horizontal_1<R_horizontal_2)begin
-					mover=2'b10;   // movimiento anti-horario  horizontal
+					mover_fi=2'b11;   // movimiento anti-horario  horizontal
 				end
 			end
-	
+			s_out_fi=mover_fi;
 		  /////////////////////////////////////
 		end
 	////////////////MODO AUTOMATICO///////////////////////
-		case(shift_motor)
-			2'b00: begin s_out_teta=mover; end
-			2'b10: begin s_out_fi=mover; end
-			default: begin mover=2'b00; end		
-		endcase
+		
+	
 	end
 	
 		
 endmodule
-
