@@ -1,5 +1,5 @@
-module peripheral_ control_movimiento(clk , rst , d_in , cs , addr , rd , wr, d_out, ledout  );
-  
+module peripheral_control_movimiento(clk , rst , d_in , cs , addr , rd , wr, d_out );
+
   input clk;
   input rst;
   input [15:0]d_in;
@@ -7,55 +7,34 @@ module peripheral_ control_movimiento(clk , rst , d_in , cs , addr , rd , wr, d_
   input [3:0]addr; // 4 LSB from j1_io_addr
   input rd;
   input wr;
-
-
-
   output reg [15:0]d_out;
-  output control_tx;
-  output reg ledout=0;
-
-//----------------------- regs and wires-------------------------------
-
-  reg [2:0] s; 	
-  reg [7:0]d_in_control;
-//------------------------- regs and wires-------------------------------
 
 
+//------------------------------------ regs and wires-------------------------------
+
+reg [1:0] SS=0;
+reg [15:0] RV1=0;
+reg [15:0] RV2=0;
+reg [15:0] RH1=0;
+reg [15:0] RH2=0;
+wire[1:0] s_out_theta;
+wire[1:0] s_out_phi;
+//------------------------------------ regs and wires-------------------------------
 
 
-always @(*) begin//----address_decoder------------------
+
+
+
+always @(*) begin//---address_decoder--------------------------
 case (addr)
-4'h0:begin s = (cs && rd) ? 3'b001 : 3'b000 ;end //
-4'h2:begin s = (cs && wr) ? 3'b010 : 3'b000 ;end //
+4'h0:begin s = (cs && wr) ? 6'b000001 : 6'b000000 ;end //SS
+4'h2:begin s = (cs && wr) ? 6'b000010 : 6'b000000 ;end //RV1
+4'h2:begin s = (cs && wr) ? 6'b000011 : 6'b000000 ;end //RV2
+4'h4:begin s = (cs && wr) ? 6'b000100 : 6'b000000 ;end //RH1
+4'h4:begin s = (cs && wr) ? 6'b000101 : 6'b000000 ;end //RH2
 
 
-default:begin s=3'b000 ; end
+default:begin s = 6'b000000 ; end
 endcase
-end//-----------------address_decoder--------------------
-
-
-
-
-
-always @(negedge clk) begin//-------------------- escritura de registros
-
-d_in_control= (s[1]) ? d_in[7:0] : d_in_control; // data in uart
-ledout = (s[2]) ? d_in[0] : ledout;	// write ledout register
-
-end//------------------------------------------- escritura de registros	
-
-
-
-
-always @(negedge clk) begin//-----------------------mux_4 :  multiplexa salidas del periferico
-case (s)
-3'b001: d_out[0]= control_busy;	// 
-default: d_out=0;
-endcase
-end//----------------------------------------------mux_4
-
-									//(addr != 4'h4): se hace para evitar escrituras fantasma
-control_movimiento control_movimiento(.control_busy(control_busy), .control_tx(control_tx), .control_wr_i(cs && wr && (addr != 4'h4) ), .control_dat_i(d_in_control), .sys_clk_i(clk), .sys_rst_i(rst));// System clock, 
-
-
+end//-----------------address_decoder--------------------------
 endmodule
