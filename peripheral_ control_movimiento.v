@@ -29,9 +29,9 @@ always @(*) begin//---address_decoder--------------------------
 case (addr)
 4'h0:begin s = (cs && wr) ? 6'b000001 : 6'b000000 ;end //SS
 4'h2:begin s = (cs && wr) ? 6'b000010 : 6'b000000 ;end //RV1
-4'h2:begin s = (cs && wr) ? 6'b000011 : 6'b000000 ;end //RV2
-4'h4:begin s = (cs && wr) ? 6'b000100 : 6'b000000 ;end //RH1
-4'h4:begin s = (cs && wr) ? 6'b000101 : 6'b000000 ;end //RH2
+4'h4:begin s = (cs && wr) ? 6'b000011 : 6'b000000 ;end //RV2
+4'h6:begin s = (cs && wr) ? 6'b000100 : 6'b000000 ;end //RH1
+4'h8:begin s = (cs && wr) ? 6'b000101 : 6'b000000 ;end //RH2
 
 
 default:begin s = 6'b000000 ; end
