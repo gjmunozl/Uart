@@ -1,5 +1,4 @@
-  
-module control_movimiento (s,clk, R_vertical_1 , R_vertical_2 , R_horizontal_1 , R_horizontal_2 , teta_manual , teta_actual , fi_manual , fi_actual, s_out_teta, s_out_fi);
+module control_movimiento (s,clk, R_vertical_1 , R_vertical_2 , R_horizontal_1 , R_horizontal_2 , theta_manual , theta_actual , phi_manual , phi_actual, s_out_theta, s_out_phi);
   
   
 	input [1:0]s; //////////interruptor modo manual/automatico
@@ -10,15 +9,15 @@ module control_movimiento (s,clk, R_vertical_1 , R_vertical_2 , R_horizontal_1 ,
 	input [15:0]R_horizontal_1;
 	input [15:0]R_horizontal_2;
 	///////////////////entradas de posición manual
-	input [15:0]teta_manual;
-	input [15:0]fi_manual;
+	input [15:0]theta_manual;
+	input [15:0]phi_manual;
 	///////////////////entradas de posición actual	
-	input [15:0]fi_actual;
-	input [15:0]teta_actual;
+	input [15:0]phi_actual;
+	input [15:0]theta_actual;
 	
 	//////////////////Salida para motores en eje teta y fi
-	output reg [1:0] s_out_teta;
-	output reg [1:0] s_out_fi;
+	output reg [1:0] s_out_theta;
+	output reg [1:0] s_out_phi;
 
 	//inicialización 
 	reg[1:0] shift_motor=2'b00;
@@ -47,7 +46,7 @@ module control_movimiento (s,clk, R_vertical_1 , R_vertical_2 , R_horizontal_1 ,
 					mover_teta=2'b11;   // movimiento anti-horario  vertical
 				end
 			end 
-			s_out_teta=mover_teta;
+			s_out_theta=mover_teta;
 		///////////////////////////////////////
 
 		end else begin
@@ -63,7 +62,7 @@ module control_movimiento (s,clk, R_vertical_1 , R_vertical_2 , R_horizontal_1 ,
 					mover_fi=2'b11;   // movimiento anti-horario  horizontal
 				end
 			end
-			s_out_fi=mover_fi;
+			s_out_phi=mover_fi;
 		  /////////////////////////////////////
 		end
 	////////////////MODO AUTOMATICO///////////////////////
@@ -72,4 +71,74 @@ module control_movimiento (s,clk, R_vertical_1 , R_vertical_2 , R_horizontal_1 ,
 	end
 	
 		
+endmodule
+
+always @(posedge clk) //comparación variables verticales AUTOMÁTICO
+  begin
+	if(init1)begin
+	    if (C>=(D+error)||C<=(D-error) 
+		begin    s_out_phi=0;end
+	    else if(C<D)
+		begin    s_out_theta=2'b01;end   //movimiesto motor hacia a izquierda 
+	   else if(C>D )
+		begin    s_out_theta=2'b10;end   //movimiesto motor hacia a derecha
+	end
+  end
+
+
+//MODOD MANUAL
+
+always @(posedge clk)  //movimento en el eje teta o vertical
+  begin
+	if(init2)begin
+		if(theta_actual>=(teta_d+error)||theta_actual<=(teta_d-error))
+			begin s_out_theta=0;end
+		else 
+			begin t=theta_actual - teta_d;end
+		if(t>0)
+		begin d1=theta_actual-teta_d;                 
+		      d2=360-theta_actual+teta_d;end
+		else 
+		begin d1=theta_actual+360-teta_d;
+		      d2=theta_actual-teta_d;end
+		if(d1>d2)
+		begin s_out_theta =2'b01;end
+		else
+		begin s_out_theta =2'b10;end
+
+	
+	
+	end
+
+  end
+
+
+always @(posedge clk)  //movimento en el eje fi o horizontal
+	if(init2 && teta_d==theta_actual)begin
+		if(phi_actual>=(fi_d+error)||phi_actual<=(fi_d-error)
+			begin s_out_phi=0;end
+		else 
+			begin t2=phi_actual - fi_d;end
+		if(t>0)
+		begin d_1=phi_actual-fi_d;
+		      d_2=fi_d-phi_actual+360;end
+		else 
+		begin d1=phi_actual+360-fi_d;
+		      d2=fi_d+phi_actual;end
+		if(d1>d2)
+		begin s_out_phi =2'b01;end
+		else
+		begin s_out_phi =2'b10;end
+
+	
+	
+	end
+
+  end
+
+
+
+
+
+
 endmodule
