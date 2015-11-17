@@ -36,5 +36,33 @@ case (addr)
 
 default:begin s = 6'b000000 ; end
 endcase
-end//-----------------address_decoder--------------------------
+end
+
+
+
+
+//-----------------address_decoder--------------------------
+
+
+always @(negedge clk) begin//-------------------- escritura de registros 
+
+case(s)
+6'b000001 : SS = d_in;
+6'b000010 : RV1 = d_in;
+6'b000011 : RV2 = d_in;
+6'b000100 : RH1 = d_in;
+6'b000101 : RH2 = d_in;
+
+
+default:begin s = 6'b000000 ; endcase
+end//------------------------------------------- escritura de registros 
+
+
+
+
+
+
+
+
+
 endmodule
