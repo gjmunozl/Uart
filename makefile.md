@@ -12,10 +12,9 @@ IVERILOG        = iverilog
 
 SAKC_IP         = 192.168.254.101
 
-CM		= control_movimiento
 
 
-SRC             = $(DESIGN).v  
+SRC             = $(DESIGN).v  control_movimiento.v
 
 SIM_SRC = $(DESIGN)_TB.v          \
 
