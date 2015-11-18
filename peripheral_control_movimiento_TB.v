@@ -3,7 +3,7 @@ module peripheral_control_movimiento_TB;
 
   
   
-  
+   reg  start;  
    reg clk;
    reg rst;
    reg [15:0]d_in;
@@ -35,7 +35,7 @@ event reset_trigger;
 
 
    initial begin  // Initialize Inputs
-      clk = 0; rst = 1; d_in = 16'd0035; addr = 16'h0000; cs=1; rd=0; wr=1; 
+      clk = 0; rst = 1; start=0; d_in = 16'd0005; addr = 16'h7000; cs=1; rd=0; wr=1; 
    end
 
 
@@ -50,7 +50,58 @@ event reset_trigger;
    end
 
 
+////////////////////////////////////////////////////////////////////////////////7
+    initial begin // Reset the system, Start the image capture process
+      forever begin 
+        @ (reset_trigger);
+        @ (posedge clk);
+        start = 0;
+        @ (posedge clk);
+        start = 1;
 
+       for(i=0; i<2; i=i+1) begin
+         @ (posedge clk);
+       end
+          start = 0;				// stimulus here
+
+       for(i=0; i<4; i=i+1) begin
+         @ (posedge clk);
+       end
+
+	d_in = 16'd0010;	//RV1
+	addr = 16'h6802;
+	cs=1; rd=0; wr=1;
+
+
+       for(i=0; i<4; i=i+1) begin
+         @ (posedge clk);
+       end
+
+	d_in = 16'd0015;	//RV2
+	addr = 16'h6804;
+	cs=1; rd=0; wr=1;
+
+       for(i=0; i<4; i=i+1) begin
+         @ (posedge clk);
+       end
+
+	d_in = 16'd0011;	//RH1
+	addr = 16'h6806;
+	cs=1; rd=0; wr=1;
+
+       for(i=0; i<4; i=i+1) begin
+         @ (posedge clk);
+       end
+
+	d_in = 16'd0020;	//RH2
+	addr = 6'h6808;
+	cs=1; rd=0; wr=1;
+
+
+      end
+   end
+	
+///////////////////////////////////////////////////////////////////////////////////////
 
    initial begin: TEST_CASE
      $dumpfile("peripheral_control_movimiento_TB.vcd");
