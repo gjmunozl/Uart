@@ -36,41 +36,38 @@ module control_movimiento (s,clk, R_vertical_1 , R_vertical_2 , R_horizontal_1 ,
 		if(s)begin
 			//----------------------//MODO MANUAL//----------------------//
 			if(shift_motor==2'b00)begin
-				////////////////MOVER MANUALMENTE MOTOR PHI////////////////
+				////////////////mover manualmente motor phi
 				if(phi_actual>=(phi_manual+error)||phi_actual<=(phi_manual-error))begin 
 					if(phi_actual>phi_manual) begin
 						if((phi_actual-phi_manual)<=giro) begin
-							mover_phi=2'b01;///movimiento horario positivo
-						end else begin
-							mover_phi=2'b11;///movimiento antiohorario negativo
-						end
+							mover_phi=2'b01;end	// movimiento horario horizontal
+						else begin
+							mover_phi=2'b11;end	// movimiento anti-horario horizontal
 					end else begin
 						if((phi_manual-phi_actual)<=giro) begin
-							mover_phi=2'b11;///movimiento antihorario negativo
-						end else begin
-							mover_phi=2'b01;///movimiento horario positivo
-						end
+							mover_phi=2'b11;end	// movimiento anti-horario horizontal
+						else begin
+							mover_phi=2'b01;end	// movimiento horario horizontal
 					end
 				end else begin 
 					mover_phi=2'b00;///NO mover
 					shift_motor=2'b01;	
 				end
 				s_out_theta=mover_theta;
-				////////////////MOVER MANUALMENTE MOTOR PHI////////////////
+				////////////////mover manualmente motor phi
 			end else begin
-				////////////////MOVER MANUALMENTE MOTOR THETA////////////////
+				////////////////mover manualmente motor theta
 				if(theta_actual>=(theta_manual+error)||theta_actual<=(theta_manual-error))begin 
 					if(theta_actual>theta_manual) begin
-						mover_theta=2'b01;///movimiento horario positivo
-					end else begin 
-						mover_theta=2'b11;///movimiento antihorario negatiivo
-					end
+						mover_theta=2'b01; end	// movimiento horario vertical
+					else begin 
+						mover_theta=2'b11; end	// movimiento anti-horario vertical
 				end else begin 
 					mover_theta=2'b00;///NO mover
 					shift_motor=2'b01;
 				end
 				s_out_theta=mover_theta;
-				////////////////MOVER MANUALMENTE MOTOR THETA////////////////
+				////////////////mover manualmente motor theta
 			end
 			//----------------------//MODO MANUAL//----------------------//
 		end else begin
@@ -84,9 +81,9 @@ module control_movimiento (s,clk, R_vertical_1 , R_vertical_2 , R_horizontal_1 ,
 					shift_motor=2'b10;end 			
 				else begin 
 					if(R_vertical_1>R_vertical_2)begin
-						mover_theta=2'b01;end  // movimiento horario  vertical					
+						mover_theta=2'b01; end	// movimiento horario vertical
 					if(R_vertical_1<R_vertical_2)begin
-						mover_theta=2'b11; end  // movimiento anti-horario  vertical
+						mover_theta=2'b11; end	// movimiento anti-horario vertical
 				end
 				s_out_theta=mover_theta;	
 				////////////////comparador vertical
@@ -94,12 +91,12 @@ module control_movimiento (s,clk, R_vertical_1 , R_vertical_2 , R_horizontal_1 ,
 				////////////////comparador horizontal
 				if (R_horizontal_1>=(R_horizontal_2-error) && R_horizontal_1<=(R_horizontal_2+error))begin
 						mover_phi=2'b00; ////El valor de las fotoresis. estan equilibradas, el movimiento es cero.
-						shift_motor=2'b00;end 
+						shift_motor=2'b00; end 
 				else begin 
 					if(R_horizontal_1>R_horizontal_2)begin
-						mover_phi=2'b01;end  // movimiento horario  horizontalend
+						mover_phi=2'b01; end	// movimiento horario  horizontal
 					if(R_horizontal_1<R_horizontal_2)begin
-						mover_phi=2'b11;end   // movimiento anti-horario  horizontalend	
+						mover_phi=2'b11; end	// movimiento anti-horario horizontal
 				end
 				s_out_phi=mover_phi;
 				////////////////comparador horizontal
