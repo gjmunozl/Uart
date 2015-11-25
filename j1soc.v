@@ -20,15 +20,17 @@ module j1soc#(
    wire                 [15:0] j1_io_dout;//************* J1
 
 
- 
-   reg [1:5]cs;  // CHIP-SELECT
+      //----MODIFICADO cs -------
+   reg [1:5]cs;  // CHIP-SELECT    
 
    wire			[15:0] mult_dout;  
    wire			[15:0] div_dout;
    wire			uart_dout;	// misma señal que uart_busy from uart.v
    wire			[15:0] dp_ram_dout;
-   wire    		[15:0] control_mov_dout;
-
+  
+  //CADA GRUPO DEFINA LA SUYA (WIRE)
+  wire    	[15:0] control_mov_dout;
+   
 //------------------------------------ regs and wires-------------------------------
 
 
@@ -40,11 +42,14 @@ module j1soc#(
 
   peripheral_uart  per_u (.clk(sys_clk_i), .rst(sys_rst_i), .d_in(j1_io_dout), .cs(cs[3]), .addr(j1_io_addr[3:0]), .rd(j1_io_rd), .wr(j1_io_wr), .d_out(uart_dout), .uart_tx(uart_tx), .ledout(ledout));
 
+  // CAMBIAR CADA GRUPO EN NOMBRE Y LA SALIDA dout que definan arriba en las lineas 30 hacia abajo, cambiar el numerito de cs.
+  peripheral_control_movimiento per_cm (.clk(sys_clk_i), .rst(sys_rst_i), .d_in(j1_io_dout), .cs(cs[4]), .addr(j1_io_addr[3:0]), .rd(j1_io_rd), .wr(j1_io_wr), .d_out(control_mov_dout));
+  
+  
 
-  dpRAM_interface dpRm(.clk(sys_clk_i), .d_in(j1_io_dout), .cs(cs[4]), .addr(j1_io_addr[7:0]), .rd(j1_io_rd), .wr(j1_io_wr), .d_out(dp_ram_dout));
+  dpRAM_interface dpRm(.clk(sys_clk_i), .d_in(j1_io_dout), .cs(cs[5]), .addr(j1_io_addr[7:0]), .rd(j1_io_rd), .wr(j1_io_wr), .d_out(dp_ram_dout));
 
 
- peripheral_control_movimiento per_cm (.clk(sys_clk_i), .rst(sys_rst_i), .d_in(j1_io_dout), .cs(cs[5]), .addr(j1_io_addr[3:0]), .rd(j1_io_rd), .wr(j1_io_wr), .d_out(control_mov_dout));
 
   // ============== Chip_Select (Addres decoder) ========================  // se hace con los 8 bits mas significativos de j1_io_addr
   always @*
@@ -54,10 +59,10 @@ module j1soc#(
         8'h67: cs= 4'b1000; 		//mult
         8'h68: cs= 4'b0100;		//div
         8'h69: cs= 4'b0010;		//uart
-        8'h70: cs= 4'b0001;		//spi no se sabe me imagin que Nicolas
-        8'h71: cs= 4'b0001;		// puede ser  i2c oscar
-        8'h72: cs= 4'b0001;		// puede ser manuel
-        8'h73: cs= 5'b10000;		//Control de motores
+        8'h70: cs= 4'b0001;		//Nicolas
+        8'h71: cs= 4'b0001;		//i2c oscar
+        8'h72: cs= 4'b0001;		//manuel
+        8'h73: cs= 5'b10000;		//CONTROL DE MOVIMIENTO
         default: cs= 3'b000;
       endcase
   end
@@ -73,7 +78,8 @@ module j1soc#(
         4'b1000: j1_io_din = mult_dout;
         4'b0100: j1_io_din = div_dout;
         4'b0010: j1_io_din = uart_dout; 
-        4'b0001: j1_io_din = dp_ram_dout; 
+        4'b0001: j1_io_din = dp_ram_dout;
+        //CADA GRUPO DEFINA LA SUYA
         5'b10000: j1_io_din = control_mov_dout; 
         default: j1_io_din = 16'h0666;
       endcase
