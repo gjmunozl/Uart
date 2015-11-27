@@ -1,5 +1,3 @@
-`timescale 1ns / 1ps
-
 module control_movimiento (s,clk, R_vertical_1 , R_vertical_2 , R_horizontal_1 , R_horizontal_2 , theta_manual , theta_actual , phi_manual , phi_actual, s_out_theta_pos, s_out_theta_neg, s_out_phi_pos, s_out_phi_neg);
   
 	input clk;
@@ -11,12 +9,12 @@ module control_movimiento (s,clk, R_vertical_1 , R_vertical_2 , R_horizontal_1 ,
 	
 	///////////////////entradas de posición manual
 	input [15:0]theta_manual;
-	input [15:0]phi_manual;
+	input [15:0]theta_actual;
 	input [1:0]s; //////////interruptor modo manual/automatico
 	
 	///////////////////entradas de posición actual	
 	input [15:0]phi_actual;
-	input [15:0]theta_actual;
+	input [15:0]phi_manual;
 	
 	//////////////////Salida para motores en eje theta y phi
 	output reg [1:0] s_out_theta_pos;
@@ -28,7 +26,7 @@ module control_movimiento (s,clk, R_vertical_1 , R_vertical_2 , R_horizontal_1 ,
 	reg[1:0] shift_motor=2'b00;
 	reg[1:0] shift_R=2'b00;
 	reg [15:0] error=3'b101;//5
-	reg [15:0] giro=8'b10110100//180;
+	reg [15:0] giro=8'b10110100;//180;
 	
 	always @(posedge clk)begin
 	
