@@ -16,8 +16,8 @@ reg [15:0] RV1=0;
 reg [15:0] RV2=0;
 reg [15:0] RH1=0;
 reg [15:0] RH2=0;
-reg [15:0] tetha_m=0;
-reg [15:0] tetha_a=0;
+reg [15:0] theta_m=0;
+reg [15:0] theta_a=0;
 reg [15:0] phi_m=0;
 reg [15:0] phi_a=0;
 wire[1:0] s_out_theta_p;
@@ -42,13 +42,13 @@ case (addr)
 4'hA:begin s = (cs && wr) ? 6'b000110 : 6'b000000 ;end //theta_m
 4'hC:begin s = (cs && wr) ? 6'b000111 : 6'b000000 ;end //theta_a
 4'hE:begin s = (cs && wr) ? 6'b001000 : 6'b000000 ;end //phi_m
-4'h10:begin s = (cs && wr) ? 6'b001001 : 6'b000000 ;end //phi_a
+5'h10:begin s = (cs && wr) ? 6'b001001 : 6'b000000 ;end //phi_a
 
 
-4'h12:begin s = (cs && rd) ? 6'b001010 : 6'b000000 ;end //s_out_theta_p
-4'h16:begin s = (cs && rd) ? 6'b001011 : 6'b000000 ;end //s_out_theta_n
-4'h14:begin s = (cs && rd) ? 6'b001100 : 6'b000000 ;end //s_out_phi_p
-4'h18:begin s = (cs && rd) ? 6'b001101 : 6'b000000 ;end //s_out_phi_n
+5'h12:begin s = (cs && rd) ? 6'b001010 : 6'b000000 ;end //s_out_theta_p
+5'h16:begin s = (cs && rd) ? 6'b001011 : 6'b000000 ;end //s_out_theta_n
+5'h14:begin s = (cs && rd) ? 6'b001100 : 6'b000000 ;end //s_out_phi_p
+5'h18:begin s = (cs && rd) ? 6'b001101 : 6'b000000 ;end //s_out_phi_n
 default:begin s = 6'b000000 ; end
 endcase
 end//-----------------address_decoder--------------------------
@@ -78,7 +78,7 @@ case (s)
 6'b001010 : d_out = s_out_theta_p;
 6'b001011 : d_out = s_out_theta_n;
 6'b001100 : d_out = s_out_phi_p;
-6'b001101 : d_out = s_out_phi_n;;
+6'b001101 : d_out = s_out_phi_n;
 default: d_out   = 0 ;
 endcase
 end//-------------------------------------mux_4
@@ -91,13 +91,14 @@ control_movimiento control_movimiento(
 					.R_vertical_2(RV2),
 					.R_horizontal_1(RH1),
 					.R_horizontal_2(RH2),
-					.theta_actual(theta_a),
 					.theta_manual(theta_m),
+					.theta_actual(theta_a),
 					.phi_manual(phi_m),
 					.phi_actual(phi_a),
 					.s_out_theta_pos(s_out_theta_p),
 					.s_out_theta_neg(s_out_theta_n),					
 					.s_out_phi_pos(s_out_phi_p),
-					.s_out_phi_neg(s_out_phi_n));
+					.s_out_phi_neg(s_out_phi_n)
+					);
 
 endmodule
