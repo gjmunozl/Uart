@@ -11,15 +11,15 @@ module peripheral_control_movimiento(clk , rst , d_in , cs , addr , rd , wr, d_o
 
 
 //------------------------------------ regs and wires-------------------------------
-reg [1:0] sma=0;
-reg [15:0] RV1=0;
-reg [15:0] RV2=0;
-reg [15:0] RH1=0;
-reg [15:0] RH2=0;
-reg [15:0] theta_m=0;
-reg [15:0] theta_a=0;
-reg [15:0] phi_m=0;
-reg [15:0] phi_a=0;
+reg [1:0] sma; //no inicializar ninguna de estas para que funcione la simulación
+reg [15:0] RV1;
+reg [15:0] RV2;
+reg [15:0] RH1;
+reg [15:0] RH2;
+reg [15:0] theta_m;
+reg [15:0] theta_a;
+reg [15:0] phi_m;
+reg [15:0] phi_a;
 wire[1:0] s_out_theta_p;
 wire[1:0] s_out_phi_p;
 wire[1:0] s_out_theta_n;
