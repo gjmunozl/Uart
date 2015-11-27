@@ -1,4 +1,3 @@
-
 module peripheral_control_movimiento_TB;
 
   
@@ -35,7 +34,7 @@ event reset_trigger;
 
 
    initial begin  // Initialize Inputs
-      clk = 0; rst = 1; start=0; d_in = 16'd0005; addr = 16'h7000; cs=1; rd=0; wr=1; 
+      clk = 0; rst = 1; start=0; d_in = 16'd0000; addr = 16'h7300; cs=1; rd=0; wr=1; 
    end
 
 
@@ -64,12 +63,21 @@ event reset_trigger;
        end
           start = 0;				// stimulus here
 
+
+ for(i=0; i<4; i=i+1) begin
+         @ (posedge clk);
+       end
+	d_in = 16'd0;		//SS
+	addr = 16'h7300;
+	cs=1; rd=0; wr=1;
+
+
+
        for(i=0; i<4; i=i+1) begin
          @ (posedge clk);
        end
-
-	d_in = 16'd0010;	//RV1
-	addr = 16'h6802;
+	d_in = 16'd0024;	//RV1
+	addr = 16'h7302;
 	cs=1; rd=0; wr=1;
 
 
@@ -78,7 +86,7 @@ event reset_trigger;
        end
 
 	d_in = 16'd0015;	//RV2
-	addr = 16'h6804;
+	addr = 16'h7304;
 	cs=1; rd=0; wr=1;
 
        for(i=0; i<4; i=i+1) begin
@@ -86,16 +94,54 @@ event reset_trigger;
        end
 
 	d_in = 16'd0011;	//RH1
-	addr = 16'h6806;
+	addr = 16'h7306;
 	cs=1; rd=0; wr=1;
 
        for(i=0; i<4; i=i+1) begin
          @ (posedge clk);
        end
 
-	d_in = 16'd0020;	//RH2
-	addr = 6'h6808;
+	d_in = 16'd0010;	//RH2
+	addr = 16'h7308;
 	cs=1; rd=0; wr=1;
+
+
+for(i=0; i<4; i=i+1) begin
+         @ (posedge clk);
+       end
+
+	d_in = 16'd0010;	//thetha m
+	addr = 16'h730A;
+	cs=1; rd=0; wr=1;
+
+
+
+for(i=0; i<4; i=i+1) begin
+         @ (posedge clk);
+       end
+
+	d_in = 16'd0016;	//thetha a
+	addr = 16'h730C;
+	cs=1; rd=0; wr=1;
+
+
+for(i=0; i<4; i=i+1) begin
+         @ (posedge clk);
+       end
+
+	d_in = 16'd0015;	//PHI_M
+	addr = 16'h730E;
+	cs=1; rd=0; wr=1;
+
+
+for(i=0; i<4; i=i+1) begin
+         @ (posedge clk);
+       end
+
+	d_in = 16'd0010;	//PHI_A
+	addr = 16'h7310;
+	cs=1; rd=0; wr=1;
+
 
 
       end
