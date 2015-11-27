@@ -27,13 +27,13 @@ module control_movimiento (s,clk, R_vertical_1 , R_vertical_2 , R_horizontal_1 ,
 	//inicialización 
 	reg[1:0] shift_motor=2'b00;
 	reg[1:0] shift_R=2'b00;
-	reg [15:0] error=3'b101;
-	reg [15:0] giro=8'b10110100;
+	reg [15:0] error=3'b101;//5
+	reg [15:0] giro=8'b10110100//180;
 	
 	always @(posedge clk)begin
 	
 	
-		if(s!=1)begin
+		if(s!=2'b01)begin
 		//----------------------//MODO AUTOMATICO//----------------------//	
 			if(shift_motor==2'b00)begin
 			
