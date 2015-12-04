@@ -36,9 +36,12 @@ div_c @
 \ d# 3 + div_a !
 ;
 
-: main 
 
-d# 0 SS !
+
+
+: main 
+do
+d# 0 sma !
 d# 28 RV1 !
 d# 1 RV2 !
 d# 14 RH1 !
@@ -47,6 +50,151 @@ d# 56 theta_m !
 d# 46 theta_a !
 d# 45 phi_m !
 d# 44 phi_a !
+
+d# 0
+begin
+1+
+dup
+d# 12
+=
+until 
+
+
+
+d# 28 RV1 !
+d# 29 RV2 !
+d# 14 RH1 !
+d# 14 RH2 !
+d# 56 theta_m !
+d# 46 theta_a !
+d# 45 phi_m !
+d# 44 phi_a !
+
+d# 0
+begin
+1+
+dup
+d# 12
+=
+until 
+
+
+
+d# 28 RV1 !
+d# 29 RV2 !
+d# 35 RH1 !
+d# 14 RH2 !
+d# 56 theta_m !
+d# 46 theta_a !
+d# 45 phi_m !
+d# 44 phi_a !
+
+d# 0
+begin
+1+
+dup
+d# 12
+=
+until 
+
+
+d# 28 RV1 !
+d# 29 RV2 !
+d# 35 RH1 !
+d# 14 RH2 !
+d# 56 theta_m !
+d# 46 theta_a !
+d# 45 phi_m !
+d# 44 phi_a !
+
+
+
+
+
+d# 0
+begin
+1+
+dup
+d# 12
+=
+until 
+
+d# 10 sma !   
+d# 28 RV1 !
+d# 13 RV2 !
+d# 18 RH1 !
+d# 18 RH2 !
+d# 5 theta_m !
+d# 6 theta_a !
+d# 46 phi_m !
+d# 35 phi_a !
+
+
+
+
+d# 0
+begin
+1+
+dup
+d# 12
+=
+until 
+
+
+d# 28 RV1 !
+d# 13 RV2 !
+d# 18 RH1 !
+d# 18 RH2 !
+d# 5 theta_m !
+d# 6 theta_a !
+d# 46 phi_m !
+d# 46 phi_a !
+
+
+
+
+d# 0
+begin
+1+
+dup
+d# 12
+=
+until 
+
+
+d# 28 RV1 !
+d# 13 RV2 !
+d# 18 RH1 !
+d# 18 RH2 !
+d# 25 theta_m !
+d# 6 theta_a !
+d# 46 phi_m !
+d# 35 phi_a !
+
+d# 0
+begin
+1+
+dup
+d# 12
+=
+until 
+
+
+d# 28 RV1 !
+d# 13 RV2 !
+d# 18 RH1 !
+d# 18 RH2 !
+d# 5 theta_m !
+d# 6 theta_a !
+d# 46 phi_m !
+d# 46 phi_a !
+
+
+
+
+loop
+
+
 
 
 
