@@ -36,7 +36,10 @@ h# 730A constant theta_m
 h# 730C constant theta_a
 h# 730E constant phi_m
 h# 6810 constant phi_a
-
+h# 7312 constant s_out_phi_p
+h# 7316 constant s_out_theta_n
+h# 7314 constant s_out_phi_p
+h# 7318 constant s_out_phi_n
 
 
 
