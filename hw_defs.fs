@@ -27,7 +27,7 @@ h# 6902 constant uart_data    \ escritura de datos que van a la uart
 h# 6904 constant led     \ led-independiente , se lo deja dentro del mapa de memoria de la uart
 
 \ memory map control_movimiento: 
-h# 7300 constant SS
+h# 7300 constant sma
 h# 7302 constant RV1		
 h# 7304 constant RV2
 h# 7306 constant RH1
@@ -35,13 +35,8 @@ h# 7308 constant RH2
 h# 730A constant theta_m
 h# 730C constant theta_a
 h# 730E constant phi_m
-h# 6810 constant phi_a
-h# 7312 constant s_out_phi_p
-h# 7316 constant s_out_theta_n
-h# 7314 constant s_out_phi_p
+h# 7310 constant phi_a
+h# 7312 constant s_out_theta_p
+h# 7314 constant s_out_theta_n
+h# 7316 constant s_out_phi_p
 h# 7318 constant s_out_phi_n
-
-
-
-
-
