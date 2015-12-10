@@ -1,0 +1,59 @@
+\ @ traer
+\ ! Asignar
+\ ff: ingrese modo, manual o automatico: 255
+\ fa: ingrese angulos: 250
+
+
+: reci-uartn
+	  begin uart_avail @ d# 1 = until
+	  uart_data @ 
+;
+
+: emit-uartn	
+    begin uart_busy @  d# 0 = until
+    uart_data !  
+;
+
+: mod_automatic
+ \ Todas las instrucciones del modo automatico <-------------------------------------
+
+ theta_a @
+ emit-uartn
+ phi_a @
+ emit-uartn  
+;
+
+: mod_manual
+ d# 250
+ emit-uartn
+
+ reci-uartn
+ theta_m !
+ theta_m @
+ emit-uartn
+
+ reci-uartn
+ phi_m !
+ phi_m @
+ emit-uartn
+
+ \ Todas las instrucciones del modo manual <-------------------------------------
+;
+
+: main
+do
+
+d# 255
+emit-uartn
+
+reci-uartn
+sw !
+
+sw @
+dup
+emit-uartn
+
+0 = IF mod_automatic ELSE mod_manual THEN
+
+loop
+;
